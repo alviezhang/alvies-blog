@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Alvie's Blog]]></title><description><![CDATA[Alvie's Blog]]></description><link>https://alvie.net</link><generator>GatsbyJS</generator><lastBuildDate>Thu, 01 Jul 2021 08:40:59 GMT</lastBuildDate><item><title><![CDATA[OpenWrt Shadowsocks 配置指南]]></title><description><![CDATA[准备 有足够空间安装软件包的 OpenWrt 路由设备 能够自由访问互联网的网络连接或者 HTTP Proxy 会使用命令行的双手 开始 Step 1. 将要设置的 OpenWrt 设备接入网络 下文均假定路由器 IP 地址为  Step 2. SSH…]]></description><link>https://alvie.net/archives/2018-07-12-openwrt-cross-gfw/</link><guid isPermaLink="false">https://alvie.net/archives/2018-07-12-openwrt-cross-gfw/</guid><pubDate>Thu, 12 Jul 2018 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;准备&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;有足够空间安装软件包的 OpenWrt 路由设备&lt;/li&gt;
+&lt;li&gt;能够自由访问互联网的网络连接或者 HTTP Proxy&lt;/li&gt;
+&lt;li&gt;会使用命令行的双手&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;开始&lt;/h2&gt;
+&lt;h3&gt;Step 1. 将要设置的 OpenWrt 设备接入网络&lt;/h3&gt;
+&lt;p&gt;下文均假定路由器 IP 地址为 &lt;code class=&quot;language-text&quot;&gt;192.168.1.1&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;Step 2. SSH 登陆路由设备&lt;/h3&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;&lt;span class=&quot;token function&quot;&gt;ssh&lt;/span&gt; root@192.168.1.1&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;假如使用 HTTP Proxy 翻墙，代理地址为 192.168.1.2，端口 8118, 需执行以下指令&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;token assign-left variable&quot;&gt;http_proxy&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;http://192.168.1.2:8118&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token builtin class-name&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;token assign-left variable&quot;&gt;https_proxy&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;http://192.168.1.2:8118&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;Step 3. 安装 openwrt-dist 源&lt;/h3&gt;
+&lt;p&gt;参考 &lt;a href=&quot;http://openwrt-dist.sourceforge.net/&quot;&gt;openwrt-dist&lt;/a&gt; 安装说明，安装提供的软件包（&lt;code class=&quot;language-text&quot;&gt;ShadowVPN&lt;/code&gt; 与 &lt;code class=&quot;language-text&quot;&gt;luci-app-shadowvpn&lt;/code&gt; 非必须可以不装）。&lt;/p&gt;
+&lt;h3&gt;Step 4. 配置&lt;/h3&gt;
+&lt;p&gt;Shadowsocks 可使用 LuCI 或命令行进行配置。&lt;/p&gt;
+&lt;p&gt;DNS 配置可参考 &lt;a href=&quot;https://github.com/aa65535/openwrt-chinadns/wiki/Use-DNS-Forwarder&quot;&gt;https://github.com/aa65535/openwrt-chinadns/wiki/Use-DNS-Forwarder&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Step 5. 完成&lt;/h3&gt;
+&lt;p&gt;配置完成后，重启服务，应该就可以自由访问因特网了。&lt;/p&gt;</content:encoded></item><item><title><![CDATA[MySQL 事务]]></title><description><![CDATA[控制事务的语句  或者  开启一个新的事务  提交当前事物，使变更持久化  回滚当前事物，取消所做出的变动  设置当前会话禁用或者启用自动提交 默认情况下，MySQL 的 autocommit…]]></description><link>https://alvie.net/archives/2018-05-20-mysql-transaction/</link><guid isPermaLink="false">https://alvie.net/archives/2018-05-20-mysql-transaction/</guid><pubDate>Sun, 20 May 2018 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;控制事务的语句&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;START TRANSACTION&lt;/code&gt; 或者 &lt;code class=&quot;language-text&quot;&gt;BEGIN&lt;/code&gt; 开启一个新的事务&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;COMMIT&lt;/code&gt; 提交当前事物，使变更持久化&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;ROLLBACK&lt;/code&gt; 回滚当前事物，取消所做出的变动&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;SET autocommit&lt;/code&gt; 设置当前会话禁用或者启用自动提交&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;默认情况下，MySQL 的 autocommit 设置为启用，也就是说所有语句产生的变动都会自动地提交到数据库中，无法回滚。&lt;/p&gt;
+&lt;h2&gt;如何启用事务？&lt;/h2&gt;
+&lt;h3&gt;使用 &lt;code class=&quot;language-text&quot;&gt;START TRANSACTION&lt;/code&gt; 或 &lt;code class=&quot;language-text&quot;&gt;BEGIN&lt;/code&gt; 语句&lt;/h3&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;START&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;TRANSACTION&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;@A&lt;/span&gt;:&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;SUM&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;salary&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;FROM&lt;/span&gt; table1 &lt;span class=&quot;token keyword&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;UPDATE&lt;/span&gt; table2 &lt;span class=&quot;token keyword&quot;&gt;SET&lt;/span&gt; summary&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;@A&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;COMMIT&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;将 autocommit 设置关闭&lt;/h3&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;SET&lt;/span&gt; autocommit&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;UPDATE&lt;/span&gt; test &lt;span class=&quot;token keyword&quot;&gt;set&lt;/span&gt; a&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;DDL 语句不能回滚&lt;/h3&gt;
+&lt;p&gt;所有的数据定义语言(DDL) 语句是不可以回滚的。&lt;/p&gt;
+&lt;h3&gt;隐式提交事务的语句&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;数据定义语言(DDL) 语句。
+例如：ALTER DATABASE, ALTER TABLE, CREATE INDEX, DROP INDEX 等。InnoDB 将 CREATE TABLE语句作为单个事务处理，这意味着来自用户的ROLLBACK不会撤销用户在该事务期间所做的 CREATE TABLE 语句。&lt;/li&gt;
+&lt;li&gt;隐含地使用或者更改 &lt;code class=&quot;language-text&quot;&gt;mysql&lt;/code&gt; 中数据表的语句。
+例如：ALTER USER, CREATE USER, REVOKE, SET PASSWORD&lt;/li&gt;
+&lt;li&gt;事务控制及锁表语句。
+例：BEGIN, LOCK TABLES, SET autocommit=1, START TRANSACTION, UNLOCK TABLES&lt;/li&gt;
+&lt;li&gt;管理语句。
+例： ANALYZE TABLE, CACHE INDEX, CHECK TABLE, FLUSH, LOAD INDEX INTO CACHE, OPTIMIZE TABLE, REPAIR TABLE, RESET&lt;/li&gt;
+&lt;li&gt;副本控制语句。
+例：START SLAVE, STOP SLAVE, RESET SLAVE, CHANGE MASTER TO&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;引用&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;https://dev.mysql.com/doc/refman/5.7/en/sql-syntax-transactions.html&quot;&gt;START TRANSACTION, COMMIT, and ROLLBACK Syntax&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content:encoded></item><item><title><![CDATA[Process]]></title><description><![CDATA[Process Starts and Terminates Process Starts and Terminates Process Identifiers Identifier Name 中文名称 pid process ID 进程 ID ppid parent…]]></description><link>https://alvie.net/archives/2018-05-18-process/</link><guid isPermaLink="false">https://alvie.net/archives/2018-05-18-process/</guid><pubDate>Fri, 18 May 2018 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;Process Starts and Terminates&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;http://www.johnloomis.org/ece537/notes/Processes/fig7_2.gif&quot; alt=&quot;Process Starts and Terminates&quot;&gt;&lt;/p&gt;
+&lt;h2&gt;Process Identifiers&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&quot;center&quot;&gt;Identifier&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;Name&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;中文名称&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;pid&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;process ID&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;进程 ID&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;ppid&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;parent process ID&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;父进程 ID&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;uid&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;real user ID&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;进程实际用户 ID&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;euid&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;effective user ID&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;进程有效用户 ID&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;gid&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;real group ID&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;进程实际组 ID&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;egid&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;effective group ID&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;进程有效组 ID&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;sid&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;session ID&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;会话 ID&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;pgid&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;process group ID&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;进程组 ID&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;tpgid&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;controlling tty process group ID&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;终端进程组 ID&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;blockquote&gt;
+&lt;p&gt;实际 ID 与 有效 ID 的区别:
+通常有效 ID 是用户实际的 ID，但是可以通过设置 &lt;code class=&quot;language-text&quot;&gt;st_mode&lt;/code&gt; 来特殊地指定执行时的有效 ID&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;Process Status&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&quot;center&quot;&gt;State&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;Explanation&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;Comment&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;I&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;idle&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;S&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;interruptible sleep&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;waiting for an event to complete&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;R&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;running or runnable&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;T&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;stopped&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;either by a job control signal or because it is being traced&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;U/D&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;in uninterruptible wait&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;usually IO&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;Z&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;dead / zombie&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;terminated but not reaped by its parent&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;img src=&quot;https://idea.popcount.org/2012-12-11-linux-process-states/76a49594323247f21c9b3a69945445ee.svg&quot; alt=&quot;Linux Process States&quot;&gt;&lt;/p&gt;
+&lt;h2&gt;Fork Process&lt;/h2&gt;
+&lt;h3&gt;Sharing of open files between parent and child after fork&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;http://poincare.matf.bg.ac.rs/~ivana/courses/ps/sistemi_knjige/pomocno/apue/APUE/0201433079/images/0201433079/graphics/08fig02_alt.gif;423615&quot; alt=&quot;Unix File Table&quot;&gt;&lt;/p&gt;
+&lt;h3&gt;Network Logins&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;http://poincare.matf.bg.ac.rs/~ivana/courses/ps/sistemi_knjige/pomocno/apue/APUE/0201433079/images/0201433079/graphics/09fig04.gif;423615&quot; alt=&quot;Network Logins&quot;&gt;&lt;/p&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;p&gt;[1]. &lt;a href=&quot;http://www.apuebook.com&quot;&gt;Advanced Programming in the UNIX® Environment&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[2]. &lt;a href=&quot;https://idea.popcount.org/2012-12-11-linux-process-states/&quot;&gt;Linux process states&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[创建 AUR 软件包]]></title><description><![CDATA[身为 Arch Linux/AUR 用户好几年了，还未向社区贡献过什么东西。今天刚好用到的一个代理软件 Meow 没在 AUR 中找到，就照着 Wiki 创建了 meow-proxy 包，下面是大致的步骤。 克隆 Git 仓库 编辑 PKGBUILD 文件 写 PKGBUILD…]]></description><link>https://alvie.net/archives/2016-04-10-create-package-in-aur/</link><guid isPermaLink="false">https://alvie.net/archives/2016-04-10-create-package-in-aur/</guid><pubDate>Sun, 10 Apr 2016 15:48:35 GMT</pubDate><content:encoded>&lt;p&gt;身为 Arch Linux/AUR 用户好几年了，还未向社区贡献过什么东西。今天刚好用到的一个代理软件 &lt;a href=&quot;https://github.com/renzhn/MEOW&quot; title=&quot;Meow proxy&quot;&gt;Meow&lt;/a&gt; 没在 AUR 中找到，就照着 &lt;a href=&quot;https://wiki.archlinux.org/index.php/Arch_User_Repository#Creating_a_new_package&quot;&gt;Wiki&lt;/a&gt; 创建了 &lt;a href=&quot;https://aur.archlinux.org/packages/meow-proxy/&quot;&gt;meow-proxy&lt;/a&gt; 包，下面是大致的步骤。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;克隆 Git 仓库&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; clone git+ssh://aur@aur.archlinux.org/meow-proxy.git&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;编辑 PKGBUILD 文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;写 PKGBUILD 时，首先参考了在 GitHub 上的&lt;a href=&quot;https://github.com/aur-archive/meow-proxy/&quot;&gt;aur-meow&lt;/a&gt;，这个包版本已经很老了，也无法在 AUR 中找到，于是根据最新的 meow 重新写了下 source 和 sha1sum，发现生成的包只有当前 Arch 的包，又照着了 &lt;a href=&quot;https://aur.archlinux.org/packages/cow-proxy/&quot;&gt;cow-proxy&lt;/a&gt; 的 PKGBUILD 文件重新写了一下。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;打包测试&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;使用 makepkg 在本地打包&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;makepkg&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;生成 .SRCINFO 文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;makepkg --printsrcinfo &lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; .SRCINFO&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;提交 Git 代码&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;将 PKGBUILD、.SRCINFO 和在 PKGBUILD 包含的本地 source 添加到 git 中，然后 push 代码。&lt;/p&gt;
+&lt;p&gt;运行 &lt;code class=&quot;language-text&quot;&gt;yaourt meow-proxy&lt;/code&gt;，检查无误。&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Poker II 交换 Alt 与 Win 键]]></title><description><![CDATA[之前有设置交换 MacBook Pro 内建键盘的 Fn 与 Crtl 键，但是如果同时使用外接键盘，外接键盘的 Ctrl 键就会不能使用。Poker II 上的 Alt 与 Meta 键是反的，我也只希望交换这款键盘的键位。还好 Karabiner…]]></description><link>https://alvie.net/archives/2015-10-22-poker-ii-macbook-pro-setting/</link><guid isPermaLink="false">https://alvie.net/archives/2015-10-22-poker-ii-macbook-pro-setting/</guid><pubDate>Thu, 22 Oct 2015 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;a href=&quot;/2015/09/osx-swap-fn-and-control/&quot;&gt;之前&lt;/a&gt;有设置交换 MacBook Pro 内建键盘的 Fn 与 Crtl 键，但是如果同时使用外接键盘，外接键盘的 Ctrl 键就会不能使用。Poker II 上的 Alt 与 Meta 键是反的，我也只希望交换这款键盘的键位。还好 Karabiner 足够强大，网上搜了下就搞定了。&lt;/p&gt;
+&lt;p&gt;获取 Poker II 与 MacBook 内建键盘 &lt;code class=&quot;language-text&quot;&gt;VendorID&lt;/code&gt; 与 &lt;code class=&quot;language-text&quot;&gt;ProductID&lt;/code&gt; 的命令如下：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;ioreg -n IOHIDKeyboard -r &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;grep&lt;/span&gt; -e &lt;span class=&quot;token string&quot;&gt;&apos;class IOHIDKeyboard&apos;&lt;/span&gt; -e VendorID&lt;span class=&quot;token punctuation&quot;&gt;\&lt;/span&gt;&quot; -e Product&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;完成的 &lt;code class=&quot;language-text&quot;&gt;private.xml&lt;/code&gt;：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;xml&quot;&gt;&lt;pre class=&quot;language-xml&quot;&gt;&lt;code class=&quot;language-xml&quot;&gt;&lt;span class=&quot;token prolog&quot;&gt;&amp;lt;?xml version=&quot;1.0&quot;?&gt;&lt;/span&gt;
+&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;root&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;For POKER II&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;devicevendordef&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;vendorname&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;POKER_CORP&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;vendorname&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;vendorid&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;0x0f39&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;vendorid&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;devicevendordef&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;deviceproductdef&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;productname&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;POKER_II&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;productname&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;productid&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;0x0611&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;productid&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;deviceproductdef&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;swapLeftCommandAndleftAlt&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;identifier&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;private.pkSwapLeftCommandAndleftAlt&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;identifier&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;device_only&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;DeviceVendor::POKER_CORP, DeviceProduct::POKER_II&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;device_only&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ KeyCode::COMMAND_L, KeyCode::OPTION_L&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ KeyCode::OPTION_L, KeyCode::COMMAND_L&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;rightAltToRightCommand&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;identifier&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;private.pkRightAltToLeftCommand&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;identifier&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;device_only&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;DeviceVendor::POKER_CORP, DeviceProduct::POKER_II&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;device_only&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ KeyCode::OPTION_R, KeyCode::COMMAND_R&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;rightCtrlToRightArrow&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;identifier&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;private.pkRightCtrlToRightArrow&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;identifier&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;device_only&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;DeviceVendor::POKER_CORP, DeviceProduct::POKER_II&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;device_only&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ KeyCode::CONTROL_R, KeyCode::CURSOR_RIGHT&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;changeEscToTilde&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;identifier&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;private.pkChangeEscToTilde&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;identifier&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;device_only&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;DeviceVendor::POKER_CORP, DeviceProduct::POKER_II&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;device_only&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ KeyCode::ESCAPE, KeyCode::BACKQUOTE&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;For Macbook Pro Early 2015&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;devicevendordef&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;vendorname&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;APPLE_INC&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;vendorname&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;vendorid&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;0x5ac&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;vendorid&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;devicevendordef&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;deviceproductdef&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;productname&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;APPLE_INTERNAL_KEYBOARD&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;productname&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;productid&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;0x273&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;productid&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;deviceproductdef&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;leftControlToFn&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;identifier&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;private.appleInternalLeftControlToFn&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;identifier&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;device_only&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;DeviceVendor::APPLE_INC, DeviceProduct::APPLE_INTERNAL_KEYBOARD&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;device_only&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token comment&quot;&gt;&amp;lt;!--Swap Fn and Left Control--&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ KeyCode::FN, KeyCode::CONTROL_L&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ KeyCode::CONTROL_L, KeyCode::FN&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token comment&quot;&gt;&amp;lt;!--Fn+Functional Keys to F1..F12--&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::BRIGHTNESS_DOWN, ModifierFlag::FN, KeyCode::F1&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ KeyCode::BRIGHTNESS_DOWN,         ModifierFlag::FN, KeyCode::F1&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::BRIGHTNESS_UP,   ModifierFlag::FN, KeyCode::F2&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ KeyCode::BRIGHTNESS_UP,           ModifierFlag::FN, KeyCode::F2&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ KeyCode::EXPOSE_ALL, ModifierFlag::FN, KeyCode::F3&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ KeyCode::DASHBOARD,  ModifierFlag::FN, KeyCode::F4&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ KeyCode::LAUNCHPAD,  ModifierFlag::FN, KeyCode::F4&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::KEYBOARDLIGHT_LOW,  ModifierFlag::FN, KeyCode::F5&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::KEYBOARDLIGHT_HIGH, ModifierFlag::FN, KeyCode::F6&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::MUSIC_PREV, ModifierFlag::FN, KeyCode::F7&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::MUSIC_PLAY, ModifierFlag::FN, KeyCode::F8&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::MUSIC_NEXT, ModifierFlag::FN, KeyCode::F9&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::VOLUME_MUTE, ModifierFlag::FN, KeyCode::F10&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::VOLUME_DOWN, ModifierFlag::FN, KeyCode::F11&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::VOLUME_UP,   ModifierFlag::FN, KeyCode::F12&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;root&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;参考链接：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://apple.stackexchange.com/a/88096&quot;&gt;http://apple.stackexchange.com/a/88096&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://qiita.com/MagicKyle/items/097f9fc10eb520f07f42&quot;&gt;http://qiita.com/MagicKyle/items/097f9fc10eb520f07f42&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://raw.githubusercontent.com/599316527/my-karabiner-configuration/master/private.xml&quot;&gt;https://raw.githubusercontent.com/599316527/my-karabiner-configuration/master/private.xml&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[macOS 交换 Fn 键和 Control 键]]></title><description><![CDATA[下载 Karabiner 从 https://pqrs.org/osx/karabiner/ 下载 Karabiner，链接内含安装步骤 配置 选中如下项目：  的子项   的子项   的全部子项 Done! 2015/10/2…]]></description><link>https://alvie.net/archives/2015-09-09-osx-swap-fn-and-control/</link><guid isPermaLink="false">https://alvie.net/archives/2015-09-09-osx-swap-fn-and-control/</guid><pubDate>Wed, 09 Sep 2015 00:00:00 GMT</pubDate><content:encoded>&lt;h3&gt;下载 Karabiner&lt;/h3&gt;
+&lt;p&gt;从 &lt;a href=&quot;https://pqrs.org/osx/karabiner/&quot;&gt;https://pqrs.org/osx/karabiner/&lt;/a&gt; 下载 Karabiner，链接内含安装步骤&lt;/p&gt;
+&lt;h3&gt;配置&lt;/h3&gt;
+&lt;p&gt;选中如下项目：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Change Control_L Key (Left Control)&lt;/code&gt; 的子项 &lt;code class=&quot;language-text&quot;&gt;Control_L to Fn&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Change Fn Key&lt;/code&gt; 的子项 &lt;code class=&quot;language-text&quot;&gt;Fn to Control_L&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Fn+Functional Keys to F1..F12&lt;/code&gt; 的全部子项&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Done!&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;2015/10/28 更新：&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;如果接入外接键盘，此配置也会生效，可以切换多个配置文件来解决，但是会比较麻烦。我们可以自定 Karabiner 的选项，针对指定设备交换按键。App 目录下&lt;code class=&quot;language-text&quot;&gt;Contents/Resources/include/checkbox/standards/&lt;/code&gt; 包含了程序自带的配置，作为参考。&lt;/p&gt;
+&lt;p&gt;获取键盘设备 ID 命令：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;ioreg -n IOHIDKeyboard -r &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;grep&lt;/span&gt; -e &lt;span class=&quot;token string&quot;&gt;&apos;class IOHIDKeyboard&apos;&lt;/span&gt; -e VendorID&lt;span class=&quot;token punctuation&quot;&gt;\&lt;/span&gt;&quot; -e Product&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;改好的 &lt;code class=&quot;language-text&quot;&gt;private.xml&lt;/code&gt; 如下：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;xml&quot;&gt;&lt;pre class=&quot;language-xml&quot;&gt;&lt;code class=&quot;language-xml&quot;&gt;&lt;span class=&quot;token prolog&quot;&gt;&amp;lt;?xml version=&quot;1.0&quot;?&gt;&lt;/span&gt;
+&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;root&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;For Macbook Pro Early 2015&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;devicevendordef&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;vendorname&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;APPLE_INC&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;vendorname&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;vendorid&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;0x5ac&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;vendorid&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;devicevendordef&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;deviceproductdef&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;productname&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;APPLE_INTERNAL_KEYBOARD&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;productname&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;productid&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;0x273&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;productid&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;deviceproductdef&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;leftControlToFn&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;identifier&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;private.appleInternalLeftControlToFn&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;identifier&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;device_only&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;DeviceVendor::APPLE_INC, DeviceProduct::APPLE_INTERNAL_KEYBOARD&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;device_only&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token comment&quot;&gt;&amp;lt;!--Swap Fn and Left Control--&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ KeyCode::FN, KeyCode::CONTROL_L&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ KeyCode::CONTROL_L, KeyCode::FN&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token comment&quot;&gt;&amp;lt;!--Fn+Functional Keys to F1..F12--&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::BRIGHTNESS_DOWN, ModifierFlag::FN, KeyCode::F1&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ KeyCode::BRIGHTNESS_DOWN,         ModifierFlag::FN, KeyCode::F1&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::BRIGHTNESS_UP,   ModifierFlag::FN, KeyCode::F2&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ KeyCode::BRIGHTNESS_UP,           ModifierFlag::FN, KeyCode::F2&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ KeyCode::EXPOSE_ALL, ModifierFlag::FN, KeyCode::F3&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ KeyCode::DASHBOARD,  ModifierFlag::FN, KeyCode::F4&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ KeyCode::LAUNCHPAD,  ModifierFlag::FN, KeyCode::F4&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::KEYBOARDLIGHT_LOW,  ModifierFlag::FN, KeyCode::F5&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::KEYBOARDLIGHT_HIGH, ModifierFlag::FN, KeyCode::F6&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::MUSIC_PREV, ModifierFlag::FN, KeyCode::F7&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::MUSIC_PLAY, ModifierFlag::FN, KeyCode::F8&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::MUSIC_NEXT, ModifierFlag::FN, KeyCode::F9&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::VOLUME_MUTE, ModifierFlag::FN, KeyCode::F10&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::VOLUME_DOWN, ModifierFlag::FN, KeyCode::F11&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;__KeyToKey__ ConsumerKeyCode::VOLUME_UP,   ModifierFlag::FN, KeyCode::F12&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;autogen&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;root&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;hr&gt;
+&lt;p&gt;参考:&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://pqrs.org/osx/karabiner/faq.html.en#fn&quot;&gt;https://pqrs.org/osx/karabiner/faq.html.en#fn&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://apple.stackexchange.com/a/88096&quot;&gt;http://apple.stackexchange.com/a/88096&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://qiita.com/MagicKyle/items/097f9fc10eb520f07f42&quot;&gt;http://qiita.com/MagicKyle/items/097f9fc10eb520f07f42&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://raw.githubusercontent.com/599316527/my-karabiner-configuration/master/private.xml&quot;&gt;https://raw.githubusercontent.com/599316527/my-karabiner-configuration/master/private.xml&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Nginx、PHP 开发环境配置]]></title><description><![CDATA[安装Nginx、PHP 以 Archlinux 为例，安装命令如下: 配置 PHP PHP-fpm 接收 FastCGI 请求有两种方式，一种是通过端口，第二种是通过 unix socket 文件进行通信。在  可以配置： 这里采用了监听端口的方式。除此之外，还要配置 PHP…]]></description><link>https://alvie.net/archives/2015-08-27-lnmp-configuration/</link><guid isPermaLink="false">https://alvie.net/archives/2015-08-27-lnmp-configuration/</guid><pubDate>Thu, 27 Aug 2015 00:00:00 GMT</pubDate><content:encoded>&lt;h3&gt;安装Nginx、PHP&lt;/h3&gt;
+&lt;p&gt;以 Archlinux 为例，安装命令如下:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; pacman -S nginx php php-fpm&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;配置 PHP&lt;/h3&gt;
+&lt;p&gt;PHP-fpm 接收 FastCGI 请求有两种方式，一种是通过端口，第二种是通过 unix socket 文件进行通信。在 &lt;code class=&quot;language-text&quot;&gt;/etc/php/php-fpm.conf&lt;/code&gt; 可以配置：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;conf&quot;&gt;&lt;pre class=&quot;language-conf&quot;&gt;&lt;code class=&quot;language-conf&quot;&gt;listen = 127.0.0.1:9000
+;listen = /run/php-fpm/php-fpm.sock&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这里采用了监听端口的方式。除此之外，还要配置 PHP 本身的配置文件，以支持 MySQL 等扩展。编辑 &lt;code class=&quot;language-text&quot;&gt;/etc/php/php.ini&lt;/code&gt;，取消 &lt;code class=&quot;language-text&quot;&gt;extension=mysql.so&lt;/code&gt; 和 &lt;code class=&quot;language-text&quot;&gt;extension=mysqli.so&lt;/code&gt; 两行的注释。&lt;/p&gt;
+&lt;p&gt;除此之外，还需查看 &lt;code class=&quot;language-text&quot;&gt;php.ini&lt;/code&gt; 文件中 &lt;code class=&quot;language-text&quot;&gt;open_basedir&lt;/code&gt; 中的值，如果 PHP 文件的路径在设置值之外，你需要把对应的父目录加入到 &lt;code class=&quot;language-text&quot;&gt;open_basedir&lt;/code&gt; 中。&lt;/p&gt;
+&lt;h3&gt;配置Nginx&lt;/h3&gt;
+&lt;p&gt;在给 Nginx 添加配置时，可以直接在 &lt;code class=&quot;language-text&quot;&gt;/etc/nginx/nginx.conf&lt;/code&gt; 中添加配置，也可以在这个配置文件中包含新的配置文件，这里采用后者。&lt;/p&gt;
+&lt;p&gt;编辑 &lt;code class=&quot;language-text&quot;&gt;/etc/nginx/nginx.conf&lt;/code&gt;，在 &lt;code class=&quot;language-text&quot;&gt;server&lt;/code&gt; 段中添加如下内容：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;conf&quot;&gt;&lt;pre class=&quot;language-conf&quot;&gt;&lt;code class=&quot;language-conf&quot;&gt;location / { 
+    include        conf.d/ci.conf;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;conf.d/ci.conf&lt;/code&gt; 为自定，然后编辑该文件，添加如下内容：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;conf&quot;&gt;&lt;pre class=&quot;language-conf&quot;&gt;&lt;code class=&quot;language-conf&quot;&gt;root           /path/to/php/code;   # php代码的根路径
+try_files      $uri $uri/ /index.php;
+index          index.php index.html index.htm;
+fastcgi_pass   127.0.0.1:9000;
+# fastcgi_pass   unix:/run/php-fpm/php-fpm.sock;
+fastcgi_index  index.php;
+fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+include        fastcgi_params;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;其中 &lt;code class=&quot;language-text&quot;&gt;fastcgi_pass&lt;/code&gt; 配置由上一步的 PHP-fpm 配置决定。此外，最后两行可以换成 &lt;code class=&quot;language-text&quot;&gt;include fastcgi.conf&lt;/code&gt;。附上两个 fastcgi 文件内容。&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;fastcgi_params&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;conf&quot;&gt;&lt;pre class=&quot;language-conf&quot;&gt;&lt;code class=&quot;language-conf&quot;&gt;fastcgi_param  QUERY_STRING       $query_string;
+fastcgi_param  REQUEST_METHOD     $request_method;
+fastcgi_param  CONTENT_TYPE       $content_type;
+fastcgi_param  CONTENT_LENGTH     $content_length;
+
+fastcgi_param  SCRIPT_NAME        $fastcgi_script_name;
+fastcgi_param  REQUEST_URI        $request_uri;
+fastcgi_param  DOCUMENT_URI       $document_uri;
+fastcgi_param  DOCUMENT_ROOT      $document_root;
+fastcgi_param  SERVER_PROTOCOL    $server_protocol;
+fastcgi_param  HTTPS              $https if_not_empty;
+
+fastcgi_param  GATEWAY_INTERFACE  CGI/1.1;
+fastcgi_param  SERVER_SOFTWARE    nginx/$nginx_version;
+
+fastcgi_param  REMOTE_ADDR        $remote_addr;
+fastcgi_param  REMOTE_PORT        $remote_port;
+fastcgi_param  SERVER_ADDR        $server_addr;
+fastcgi_param  SERVER_PORT        $server_port;
+fastcgi_param  SERVER_NAME        $server_name;
+
+# PHP only, required if PHP was built with --enable-force-cgi-redirect
+fastcgi_param  REDIRECT_STATUS    200;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;fastcgi.conf&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;conf&quot;&gt;&lt;pre class=&quot;language-conf&quot;&gt;&lt;code class=&quot;language-conf&quot;&gt;fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name;
+fastcgi_param  QUERY_STRING       $query_string;
+fastcgi_param  REQUEST_METHOD     $request_method;
+fastcgi_param  CONTENT_TYPE       $content_type;
+fastcgi_param  CONTENT_LENGTH     $content_length;
+
+fastcgi_param  SCRIPT_NAME        $fastcgi_script_name;
+fastcgi_param  REQUEST_URI        $request_uri;
+fastcgi_param  DOCUMENT_URI       $document_uri;
+fastcgi_param  DOCUMENT_ROOT      $document_root;
+fastcgi_param  SERVER_PROTOCOL    $server_protocol;
+fastcgi_param  HTTPS              $https if_not_empty;
+
+fastcgi_param  GATEWAY_INTERFACE  CGI/1.1;
+fastcgi_param  SERVER_SOFTWARE    nginx/$nginx_version;
+
+fastcgi_param  REMOTE_ADDR        $remote_addr;
+fastcgi_param  REMOTE_PORT        $remote_port;
+fastcgi_param  SERVER_ADDR        $server_addr;
+fastcgi_param  SERVER_PORT        $server_port;
+fastcgi_param  SERVER_NAME        $server_name;
+
+# PHP only, required if PHP was built with --enable-force-cgi-redirect
+fastcgi_param  REDIRECT_STATUS    200;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;可以看出来 &lt;code class=&quot;language-text&quot;&gt;fastcgi.conf&lt;/code&gt; 比 &lt;code class=&quot;language-text&quot;&gt;fastcgi_params&lt;/code&gt; 文件只多出第一行。&lt;/p&gt;
+&lt;h3&gt;测试&lt;/h3&gt;
+&lt;p&gt;在 Nginx 设置的 PHP 路径添加测试文件 &lt;code class=&quot;language-text&quot;&gt;index.php&lt;/code&gt;，重启 nginx 服务和 PHP-fpm 服务，测试下你的 PHP 服务吧。&lt;/p&gt;</content:encoded></item><item><title><![CDATA[用VIM给文件添加行号]]></title><description><![CDATA[面试时被问到如何用 Vim 给文件增加行号，没答出来。其中需要用到 Vim…]]></description><link>https://alvie.net/archives/2015-07-27-vim-add-line-number/</link><guid isPermaLink="false">https://alvie.net/archives/2015-07-27-vim-add-line-number/</guid><pubDate>Mon, 27 Jul 2015 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;面试时被问到如何用 Vim 给文件增加行号，没答出来。其中需要用到 Vim 的函数 &lt;code class=&quot;language-text&quot;&gt;line&lt;/code&gt;：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;vim&quot;&gt;&lt;pre class=&quot;language-vim&quot;&gt;&lt;code class=&quot;language-vim&quot;&gt;&lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;s&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;^&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;\&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;.&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;用每行的行号去替换行首的空字符串，即可获得结果。解决问题的关键在于使用 &lt;code class=&quot;language-text&quot;&gt;\=&lt;/code&gt; 可以获得之后函数的结果进行替换。&lt;/p&gt;
+&lt;p&gt;上面的命令会在每行添加对应行号数字，但是行号一般还包含至少一个空格，改进如下：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;vim&quot;&gt;&lt;pre class=&quot;language-vim&quot;&gt;&lt;code class=&quot;language-vim&quot;&gt;&lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;s&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;^&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;\&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;.&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos; &apos;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;添加前：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;hello world&apos;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; __name__ &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;__main__&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    foo&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;添加后：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt;     &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;hello world&apos;&lt;/span&gt;
+&lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt; 
+&lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; __name__ &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;__main__&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;token number&quot;&gt;5&lt;/span&gt;     foo&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;hr&gt;
+&lt;p&gt;Ref:&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://vim.wikia.com/wiki/Insert_line_numbers&quot;&gt;http://vim.wikia.com/wiki/Insert_line_numbers&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[OpenWrt 挂载 USB 存储设置 exroot]]></title><description><![CDATA[设备信息   步骤 安装所需要的软件包 挂载USB分区（假设对应分区为） 编辑 拷贝root文件到USB文件系统中 ，搞定 更多信息请参考官方文档Rootfs on External Storage (extroot)]]></description><link>https://alvie.net/archives/2015-06-28-openwrt-mount-usb-exroot/</link><guid isPermaLink="false">https://alvie.net/archives/2015-06-28-openwrt-mount-usb-exroot/</guid><pubDate>Sun, 28 Jun 2015 00:00:00 GMT</pubDate><content:encoded>&lt;h4&gt;设备信息&lt;/h4&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;TP-Link WR-720N Version: 4.0&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;OpenWrt Barrier Breaker 14.07 / LuCI Trunk (0.12+svn-r10530)&lt;/code&gt;&lt;/p&gt;
+&lt;h4&gt;步骤&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;安装所需要的软件包&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;opkg update
+opkg &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; block-mount kmod-usb-storage kmod-fs-ext4
+&lt;span class=&quot;token function&quot;&gt;reboot&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;挂载USB分区（假设对应分区为&lt;code class=&quot;language-text&quot;&gt;/dev/sda1&lt;/code&gt;）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;mkdir&lt;/span&gt; /mnt/usb
+&lt;span class=&quot;token function&quot;&gt;mount&lt;/span&gt; -t ext4 /dev/sda1 /mnt/usb&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;编辑&lt;code class=&quot;language-text&quot;&gt;fstab&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;conf&quot;&gt;&lt;pre class=&quot;language-conf&quot;&gt;&lt;code class=&quot;language-conf&quot;&gt;config &amp;#39;global&amp;#39;
+option  anon_swap   &amp;#39;0&amp;#39;
+option  anon_mount  &amp;#39;0&amp;#39;
+option  auto_swap   &amp;#39;1&amp;#39;
+option  auto_mount  &amp;#39;1&amp;#39;
+option  delay_root  &amp;#39;5&amp;#39;
+option  check_fs    &amp;#39;0&amp;#39;
+
+config &amp;#39;mount&amp;#39;
+option  target  &amp;#39;/&amp;#39;
+option  device  /dev/sda1
+option  enabled &amp;#39;1&amp;#39;
+option  fstype  ext4
+option  options rw,sync
+option  enabled_fsck    0&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;拷贝root文件到USB文件系统中&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;mkdir&lt;/span&gt; /tmp/cproot
+&lt;span class=&quot;token function&quot;&gt;mount&lt;/span&gt; --bind / /tmp/cproot
+&lt;span class=&quot;token function&quot;&gt;tar&lt;/span&gt; -C /tmp/cproot -cvf - &lt;span class=&quot;token builtin class-name&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;tar&lt;/span&gt; -C /mnt/usb -xvf -
+&lt;span class=&quot;token function&quot;&gt;sync&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;umount&lt;/span&gt; /mnt/usb
+&lt;span class=&quot;token function&quot;&gt;umount&lt;/span&gt; /tmp/cproot&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;reboot&lt;/code&gt;，搞定&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;更多信息请参考官方文档&lt;a href=&quot;http://wiki.openwrt.org/doc/howto/extroot&quot;&gt;Rootfs on External Storage (extroot)&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Python 中的单例模式]]></title><description><![CDATA[单例模式，是一种常用的软件设计模式，单例对象的类必须保证只有一个实例存在。 之前自己土鳖的实现： 上面的实现缺点很明显，无论有没有调用  的  方法， 对象总会初始化。改进也很简单： 用类的静态变量替换全局变量，就只会在使用时才初始化单例对象。对于 CPython…]]></description><link>https://alvie.net/archives/2015-06-09-singleton-in-python/</link><guid isPermaLink="false">https://alvie.net/archives/2015-06-09-singleton-in-python/</guid><pubDate>Tue, 09 Jun 2015 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;单例模式，是一种常用的软件设计模式，单例对象的类必须保证只有一个实例存在。&lt;/p&gt;
+&lt;p&gt;之前自己土鳖的实现：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;_instance &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Singleton&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Singleton&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token decorator annotation punctuation&quot;&gt;@staticmethod&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;get_instance&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; _instance&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;上面的实现缺点很明显，无论有没有调用 &lt;code class=&quot;language-text&quot;&gt;Singleton&lt;/code&gt; 的 &lt;code class=&quot;language-text&quot;&gt;get_instance&lt;/code&gt; 方法，&lt;code class=&quot;language-text&quot;&gt;_instance&lt;/code&gt; 对象总会初始化。改进也很简单：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Singleton&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    _instance &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;None&lt;/span&gt;
+
+    &lt;span class=&quot;token decorator annotation punctuation&quot;&gt;@staticmethod&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;get_instance&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; Singleton&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;_instance &lt;span class=&quot;token keyword&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            Singleton&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;_instance &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Singleton&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; Singleton&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;_instance&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;用类的静态变量替换全局变量，就只会在使用时才初始化单例对象。&lt;del&gt;对于 CPython 来说，由于 GIL 的限制，单个进程同一时刻至多有一个线程运行，所以不需要担心 &lt;code class=&quot;language-text&quot;&gt;get_instance&lt;/code&gt; 函数第 2 行执行时产生多个单例。如果考虑其他可能发生并发的 Python 实现&lt;/del&gt;，可以使用下面的加锁版本：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; threading
+
+&lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Singleton&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    _instance &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;None&lt;/span&gt;
+    _instance_lock &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; threading&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Lock&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;token decorator annotation punctuation&quot;&gt;@staticmethod&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;get_instance&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;with&lt;/span&gt; Singleton&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;_instance_lock&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; Singleton&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;_instance &lt;span class=&quot;token keyword&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+                Singleton&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;_instance &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Singleton&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; Singleton&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;_instance&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;上面的实现在每次执行 &lt;code class=&quot;language-text&quot;&gt;get_instance&lt;/code&gt; 时都会加锁，还不够好，因此就有了下面的”双重检查加锁”版本：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Singleton&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    _instance &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;None&lt;/span&gt;
+    _instance_lock &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; threading&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Lock&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;token decorator annotation punctuation&quot;&gt;@staticmethod&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;get_instance&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; Singleton&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;_instance &lt;span class=&quot;token keyword&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;token keyword&quot;&gt;with&lt;/span&gt; Singleton&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;_instance_lock&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; Singleton&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;_instance &lt;span class=&quot;token keyword&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+                    Singleton&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;_instance &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Singleton&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; Singleton&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;_instance&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;每次写单例要写那么多代码很麻烦呀，怎么办呢？有装饰器来帮忙：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;singleton&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;cls&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    instances &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;wrap&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;args&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;**&lt;/span&gt;kwargs&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; cls &lt;span class=&quot;token keyword&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; instances&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            instances&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;cls&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; cls&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;args&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;**&lt;/span&gt;kwargs&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; instances&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;cls&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; wrap&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这个装饰起没有考虑多线程并发问题，&lt;del&gt;不过在日常的应用中(CPython)应该足够用了&lt;/del&gt;。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;参考文献：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://zh.wikipedia.org/wiki/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F&quot;&gt;单例模式 - 维基百科&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/tornadoweb/tornado/blob/master/tornado/ioloop.py&quot;&gt;Tornado: ioloop.py&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[SQLAlchemy 获取 AutoField 值]]></title><description><![CDATA[From: python - sqlalchemy flush() and get inserted id? - Stack Overflow]]></description><link>https://alvie.net/archives/2015-03-17-refresh-object-in-sqlalchemy/</link><guid isPermaLink="false">https://alvie.net/archives/2015-03-17-refresh-object-in-sqlalchemy/</guid><pubDate>Tue, 17 Mar 2015 00:00:00 GMT</pubDate><content:encoded>&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;f &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Foo&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;bar&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;x&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+session&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;add&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;f&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+session&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;flush&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# At this point, the object f has been pushed to the DB, &lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# and has been automatically assigned a unique primary key id&lt;/span&gt;
+
+f&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;id&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# is None&lt;/span&gt;
+
+session&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;refresh&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;f&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# refresh updates given object in the session with its state in the DB&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# (and can also only refresh certain attributes - search for documentation)&lt;/span&gt;
+
+f&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;id&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# is the automatically assigned primary key ID given in the database.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;From:&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/questions/1316952/sqlalchemy-flush-and-get-inserted-id#5083472&quot;&gt;python - sqlalchemy flush() and get inserted id? - Stack Overflow&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Python 3 中的 nonlocal 语句]]></title><description><![CDATA[最近在看 Python 3，其中变量作用域增加了  关键字，用来指定非全局、非本地作用域外的封闭作用域中的变量。 语句会让所列标示符引用之前的最近封闭作用域的绑定变量，除了全局作用域外。
+但是必须引用之前封闭作用域存在的变量（global…]]></description><link>https://alvie.net/archives/2015-02-26-nonlocal-statement-in-python3/</link><guid isPermaLink="false">https://alvie.net/archives/2015-02-26-nonlocal-statement-in-python3/</guid><pubDate>Thu, 26 Feb 2015 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;最近在看 Python 3，其中变量作用域增加了 &lt;code class=&quot;language-text&quot;&gt;nonlocal&lt;/code&gt; 关键字，用来指定非全局、非本地作用域外的封闭作用域中的变量。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;peg&quot;&gt;&lt;pre class=&quot;language-peg&quot;&gt;&lt;code class=&quot;language-peg&quot;&gt;nonlocal_stmt ::=  &amp;quot;nonlocal&amp;quot; identifier (&amp;quot;,&amp;quot; identifier)*&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;nonlocal&lt;/code&gt;语句会让所列标示符&lt;code class=&quot;language-text&quot;&gt;identifier&lt;/code&gt;引用之前的最近封闭作用域的绑定变量，除了全局作用域外。
+但是&lt;code class=&quot;language-text&quot;&gt;nonlocal&lt;/code&gt;必须引用之前封闭作用域存在的变量（global则可以声明不存在的）。
+而且&lt;code class=&quot;language-text&quot;&gt;nonlocal&lt;/code&gt;语句所声明的标示符不能与已有的本地变量重名。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;scope_test&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;do_local&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        spam &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;local spam&quot;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;do_nonlocal&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;nonlocal&lt;/span&gt; spam
+        spam &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;nonlocal spam&quot;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;do_global&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;global&lt;/span&gt; spam
+        spam &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;global spam&quot;&lt;/span&gt;
+
+    spam &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;test spam&quot;&lt;/span&gt;
+    do_local&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;After local assignment:&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; spam&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    do_nonlocal&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;After nonlocal assignment:&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; spam&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    do_global&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;After global assignment:&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; spam&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+scope_test&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;In global scope:&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; spam&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;输出结果是：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;After local assignment: test spam
+After nonlocal assignment: nonlocal spam
+After global assignment: nonlocal spam
+In global scope: global spam&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;注意局部的赋值 (默认) 并没有改变 &lt;code class=&quot;language-text&quot;&gt;scope_test&lt;/code&gt; 绑定的 &lt;code class=&quot;language-text&quot;&gt;spam&lt;/code&gt;. 而 &lt;code class=&quot;language-text&quot;&gt;nonlocal&lt;/code&gt; 则改变了 &lt;code class=&quot;language-text&quot;&gt;scope_test&lt;/code&gt; 中的 &lt;code class=&quot;language-text&quot;&gt;spam&lt;/code&gt;, 而 &lt;code class=&quot;language-text&quot;&gt;global&lt;/code&gt; 则改变了模块级别的绑定。
+可以看到在 &lt;code class=&quot;language-text&quot;&gt;global&lt;/code&gt; 赋值之前并没有绑定 &lt;code class=&quot;language-text&quot;&gt;spam&lt;/code&gt; 的值.&lt;/p&gt;
+&lt;p&gt;有了 &lt;code class=&quot;language-text&quot;&gt;nonlocal&lt;/code&gt; 语句，Python的闭包就不只能只读访问非本地作用域的变量了。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;num&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    count &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;nonlocal&lt;/span&gt; count
+        &lt;span class=&quot;token keyword&quot;&gt;nonlocal&lt;/span&gt; num
+        num &lt;span class=&quot;token operator&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;
+        count &lt;span class=&quot;token operator&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;num is %d&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt; num&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;bar invoke %d times&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt; count&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; bar
+
+func &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; foo&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+func&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+func&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;运行结果：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;num is 11
+bar invoke 1 times
+num is 12
+bar invoke 2 times&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;参考文献：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://docs.python.org/3/reference/simple_stmts.html#the-nonlocal-statement&quot;&gt;The nonlocal statement&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://docspy3zh.readthedocs.io/en/latest/tutorial/classes.html#tut-scopes&quot;&gt;Python 的作用域和命名空间&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[修复 LaunchPad 空文件夹]]></title><description><![CDATA[在终端执行 另外Sorty这个App也能解决这个问题。 参考链接]]></description><link>https://alvie.net/archives/2015-01-26-fix-launchpad-empty/</link><guid isPermaLink="false">https://alvie.net/archives/2015-01-26-fix-launchpad-empty/</guid><pubDate>Mon, 26 Jan 2015 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;在终端执行&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;defaults write com.apple.dock ResetLaunchPad -bool true; killall Dock&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;另外&lt;a href=&quot;http://wiles.dk/&quot; title=&quot;Sorty for OS X&quot;&gt;Sorty&lt;/a&gt;这个App也能解决这个问题。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://forums.macrumors.com/showthread.php?t=1760552#2&quot;&gt;参考链接&lt;/a&gt;&lt;/p&gt;</content:encoded></item></channel></rss>
